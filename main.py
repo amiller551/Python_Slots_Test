@@ -1,3 +1,6 @@
+#need to figure out diagonal winning funcitons
+
+
 import random
 
 MAX_LINES = 3
