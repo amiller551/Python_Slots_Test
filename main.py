@@ -1,4 +1,4 @@
-#need to figure out diagonal winning funcitons
+#Diagonal winning added. Need to see if Christian has optimization advice
 
 
 import random
