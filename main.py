@@ -1,6 +1,3 @@
-#after adding to git_repository
-
-
 import random
 
 MAX_LINES = 3
@@ -39,7 +36,6 @@ def check_winnings(columns, lines, bet, values):
 
     return winnings, winning_lines
 
-
 def get_slot_machine_spin(rows, cols, symbols):
     all_symbols = []
     for symbol, symbol_count in symbols.items():
@@ -68,7 +64,6 @@ def print_slot_machine(columns):
                 print(column[row], end='')
 
         print()
-
 
 def deposit():
     while True:
@@ -112,17 +107,12 @@ def get_bet():
 
     return amount
 
-def spin(balance):
-    lines = get_number_of_lines()
-    while True:
-        bet = get_bet()
-        total_bet = bet * lines
+def spin(balance, lines, bet):
+    total_bet = bet * lines
+    if total_bet > balance:
+        print(F'You do not have enough to bet that amount, your current balance is: ${balance}')
+        return 0  # No change in balance
 
-        if total_bet > balance:
-            print(F'You do not have enough to bet that amount, your current balance is: ${balance}')
-        else:
-            break 
-    
     print(
         F'You are betting ${bet} on {lines} lines. Total bet is equal to: ${total_bet}')
     
@@ -132,19 +122,24 @@ def spin(balance):
     print(F'YOU WON ${winnings}!')
     print(F'You won on lines:', *winning_lines)
     return winnings - total_bet
-          
-
 
 def main():
     balance = deposit()
     while True:
         print(F'Current Balance is ${balance}')
-        answer = input('Press enter to play (q to quit).')
-        if answer == 'q':
-            break
-        balance += spin(balance)
-    print(F'You left with ${balance}')
+        lines = get_number_of_lines()
+        bet = get_bet()
 
-    
+        while True:
+            balance += spin(balance, lines, bet)
+            if balance <= 0:
+                print('You have run out of money!')
+                return
+
+            repeat = input('Would you like to repeat your bet? (y/n): ')
+            if repeat.lower() != 'y':
+                break
+
+    print(F'You left with ${balance}')
 
 main()
